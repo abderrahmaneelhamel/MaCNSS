@@ -13,6 +13,8 @@ public class MaCNSSService {
     private static MaCNSSService instance;
     private final AuthenticationService authService;
     private final AgentService AgentService;
+    private final ClientService ClientService;
+
     private final AdminService AdminService;
     private final Connection connection;
 
@@ -20,6 +22,7 @@ public class MaCNSSService {
         connection = DatabaseConnection.getInstance().getConnection();
         authService = new AuthenticationService(new UserDAOImpl(connection));
         AgentService = new AgentService(connection);
+        ClientService = new ClientService(connection);
         AdminService = new AdminService();
     }
 
@@ -39,8 +42,6 @@ public class MaCNSSService {
     }
 
     public void start() {
-        tools.checkOutDatedBorrows();
-
         Scanner scanner = new Scanner(System.in);
 
         // Display a welcome message and options to log in or sign up
@@ -70,7 +71,7 @@ public class MaCNSSService {
                             AgentService.showMenu(authenticatedUser);
                         } else if (authenticatedUser.getRole() == 2) {
                             // Client menu
-                            ClientService.displayMenu(authenticatedUser);
+                            ClientService.showMenu(authenticatedUser);
                         } else {
                             System.out.println("Invalid user role. Exiting...");
                         }

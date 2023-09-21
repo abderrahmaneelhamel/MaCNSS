@@ -5,13 +5,13 @@ import model.User;
 import java.sql.Connection;
 import java.util.Scanner;
 
-public class AgentService {
+public class ClientService {
     private final Connection connection;
+
     private final FileService FileService;
 
 
-
-    public AgentService(Connection connection) {
+    public ClientService(Connection connection) {
         this.connection = connection;
         this.FileService = new FileService(connection);
     }
@@ -20,13 +20,9 @@ public class AgentService {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nAgents Menu:");
-            System.out.println("1. Add a New File");
-            System.out.println("2. Edit a File");
-            System.out.println("3. Delete a File");
-            System.out.println("4. Search for a File");
-            System.out.println("5. Add a new Patient");
-            System.out.println("6. Logout");
+            System.out.println("\nClient Menu:");
+            System.out.println("1. check your files state");
+            System.out.println("2. Logout");
 
             System.out.print("Enter your choice: ");
             if (scanner.hasNextInt()) {
@@ -34,12 +30,8 @@ public class AgentService {
                 scanner.nextLine(); // Consume newline
 
                 switch (choice) {
-                    case 1 -> FileService.AddFile();
-                    case 2 -> FileService.editFile();
-                    case 3 -> FileService.deleteFile();
-                    case 4 -> FileService.searchFile();
-                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addAdmin(scanner);
-                    case 6 -> {
+                    case 1 -> FileService.checkClientState(authenticatedUser);
+                    case 2 -> {
                         return; // Logout
                     }
                     default -> System.out.println("Invalid choice. Please try again.");
