@@ -2,17 +2,16 @@ package model;
 
 public class RefundFile {
     private int id;
-    private int medicineId;
-    private int patientId;
-    private double amount;
+    private int userId;
+    private double totalRefund;
     private String creationDate;
     private String status;
 
-    public RefundFile(int medicineId, int patientId, String creationDate,double amount, String status) {
-        this.medicineId = medicineId;
-        this.patientId = patientId;
+    public RefundFile(int id,int userId, String creationDate,double totalRefund, String status) {
+        this.id = id;
+        this.userId = userId;
         this.creationDate = creationDate;
-        this.amount = amount;
+        this.totalRefund = totalRefund;
         this.status = status;
     }
 
@@ -24,11 +23,12 @@ public class RefundFile {
         this.id = id;
     }
 
-    public int getMedicineId() {
-        return medicineId;
-    }
     public int getPatientId() {
-        return patientId;
+        return userId;
+    }
+
+    public void setPatientId(int userId) {
+        this.userId = userId;
     }
 
     public String getCreationDate() {
@@ -39,12 +39,12 @@ public class RefundFile {
         this.creationDate = creationDate;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getTotalRefund() {
+        return totalRefund;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setTotalRefund(double totalRefund) {
+        this.totalRefund = totalRefund;
     }
 
     public String getStatus() {

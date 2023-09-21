@@ -3,6 +3,7 @@ package service;
 import dao.UserDAOImpl;
 import model.User;
 import util.tools;
+import Enum.UserRole;
 
 import java.util.Scanner;
 
@@ -64,7 +65,7 @@ public class AuthenticationService {
         }
 
         // Create an admin user with role 1 (admin)
-        User admin = new User(0,name, email, password, 1);
+        User admin = new User(0,name, email, password, UserRole.ADMIN.toString());
 
         // Register the admin user using the userDAO
         if (userDAO.addUser(admin)) {
@@ -97,7 +98,7 @@ public class AuthenticationService {
         }
 
         // Create an admin user with role 1 (admin)
-        User admin = new User(0,name, email, password, 2);
+        User admin = new User(0,name, email, password, UserRole.AGENT.toString());
 
         // Register the admin user using the userDAO
         if (userDAO.addUser(admin)) {

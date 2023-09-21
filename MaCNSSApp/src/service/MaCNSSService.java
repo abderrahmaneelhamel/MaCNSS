@@ -3,7 +3,7 @@ package  service;
 import dao.DatabaseConnection;
 import dao.UserDAOImpl;
 import model.User;
-import util.tools;
+import Enum.UserRole;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -52,13 +52,13 @@ public class MaCNSSService {
 
                 if (authenticatedUser != null) {
                     // Determine user role
-                    if (authenticatedUser.getId() == 1) {
+                    if (authenticatedUser.getRole().equals(UserRole.ADMIN.toString())) {
                         // Admin menu
                         AdminService.displayMenu(authenticatedUser);
-                    } else if (authenticatedUser.getRole() == 1) {
+                    } else if (authenticatedUser.getRole().equals(UserRole.AGENT.toString())) {
                         // Agent menu
                         AgentService.showMenu(authenticatedUser);
-                    } else if (authenticatedUser.getRole() == 2) {
+                    } else if (authenticatedUser.getRole().equals(UserRole.CLIENT.toString())) {
                         // Client menu
                         ClientService.showMenu(authenticatedUser);
                     } else {

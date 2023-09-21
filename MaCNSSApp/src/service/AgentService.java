@@ -36,7 +36,7 @@ public class AgentService {
                 switch (choice) {
                     case 1 -> FileService.AddFile();
                     case 2 -> FileService.editFile();
-                    case 3 -> FileService.deleteFile();
+                    case 3 -> FileService.deleteFile(scanner);
                     case 4 -> FileService.searchFile();
                     case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addClient(scanner);
                     case 6 -> {

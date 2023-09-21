@@ -30,7 +30,7 @@ public class ClientService {
                 scanner.nextLine(); // Consume newline
 
                 switch (choice) {
-                    case 1 -> FileService.checkClientState(authenticatedUser);
+                    case 1 -> FileService.checkClientFiles(authenticatedUser);
                     case 2 -> {
                         return; // Logout
                     }
