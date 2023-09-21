@@ -6,7 +6,6 @@ public class Main {
         try {
             MaCNSSService MaCNSSService = service.MaCNSSService.getInstance();
             MaCNSSService.start();
-
         }catch (Exception e) {
             e.printStackTrace();
         }

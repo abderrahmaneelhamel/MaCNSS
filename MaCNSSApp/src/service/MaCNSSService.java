@@ -46,6 +46,7 @@ public class MaCNSSService {
 
         // Display a welcome message and options to log in or sign up
         System.out.println("Welcome to the MaCNSS Management System!");
+        System.out.println(UserRole.ADMIN.toString());
 
                 // User authentication
                 User authenticatedUser = authService.signIn(scanner);

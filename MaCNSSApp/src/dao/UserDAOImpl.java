@@ -26,15 +26,9 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                int role = resultSet.getInt("role");
+                String role = resultSet.getString("role");
 
-                User authenticatedUser = new User(0, null, null, null, 0);
-                authenticatedUser.setId(id);
-                authenticatedUser.setName(name);
-                authenticatedUser.setEmail(email);
-                authenticatedUser.setRole(role);
-
-                return authenticatedUser;
+                return new User(id, name, email, null, role);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getRole());
+            preparedStatement.setString(4, user.getRole());
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
