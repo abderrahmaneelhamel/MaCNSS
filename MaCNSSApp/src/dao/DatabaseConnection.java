@@ -20,7 +20,7 @@ public class DatabaseConnection {
     public Connection getConnection() throws SQLException {
         try {
             return DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/MaCNSS", "postgres", "admin"
+                    "jdbc:postgresql://localhost:5432/macnss", "postgres", "admin"
             );
         } catch (SQLException e) {
             e.printStackTrace();

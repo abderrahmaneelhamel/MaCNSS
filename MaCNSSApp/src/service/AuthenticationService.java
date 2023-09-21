@@ -40,39 +40,7 @@ public class AuthenticationService {
 
         return authenticatedUser;
     }
-
-    public User signUp(Scanner scanner) {
-        System.out.println("=== User Sign-Up ===");
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter your email: ");
-        String email = scanner.nextLine();
-        // Validate user's email
-        while (tools.isValidEmailFormat(email)) {
-            System.out.println("Invalid email format. Please enter a valid email:");
-            email = new Scanner(System.in).nextLine();
-        }
-
-        System.out.print("Enter your password: ");
-        String password = scanner.nextLine();
-
-        // Validate user's password
-        while (tools.isValidPassword(password)) {
-            System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
-            password = new Scanner(System.in).nextLine();
-        }
-
-        User newUser = new User(0,name, email, password,2);
-
-        if (userDAO.addUser(newUser)) {
-            System.out.println("Sign-Up successful!");
-            return newUser;
-        } else {
-            System.out.println("Sign-Up failed. User already exists.");
-            return null;
-        }
-    }
-    public void addAdmin(Scanner scanner) {
+    public void addAgent(Scanner scanner) {
         System.out.println("=== Admin Registration ===");
 
         // Collect admin information
@@ -105,5 +73,37 @@ public class AuthenticationService {
             System.out.println("Admin registration failed. Please check the input.");
         }
     }
+    public void addClient(Scanner scanner) {
+        System.out.println("=== Admin Registration ===");
 
+        // Collect admin information
+        System.out.print("Enter admin name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter admin email: ");
+        String email = scanner.nextLine();
+        // Validate user's email
+        while (tools.isValidEmailFormat(email)) {
+            System.out.println("Invalid email format. Please enter a valid email:");
+            email = new Scanner(System.in).nextLine();
+        }
+
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+
+        // Validate user's password
+        while (tools.isValidPassword(password)) {
+            System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
+            password = new Scanner(System.in).nextLine();
+        }
+
+        // Create an admin user with role 1 (admin)
+        User admin = new User(0,name, email, password, 2);
+
+        // Register the admin user using the userDAO
+        if (userDAO.addUser(admin)) {
+            System.out.println("Admin registration successful!");
+        } else {
+            System.out.println("Admin registration failed. Please check the input.");
+        }
+    }
 }

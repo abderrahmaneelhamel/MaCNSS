@@ -38,7 +38,7 @@ public class AgentService {
                     case 2 -> FileService.editFile();
                     case 3 -> FileService.deleteFile();
                     case 4 -> FileService.searchFile();
-                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addAdmin(scanner);
+                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addClient(scanner);
                     case 6 -> {
                         return; // Logout
                     }

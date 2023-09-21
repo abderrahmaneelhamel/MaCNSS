@@ -1,13 +1,15 @@
 package service;
+import dao.UserDAOImpl;
 import model.User;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class AdminService {
 
-
-    public AdminService() {
-
+    private final Connection connection;
+    public AdminService(Connection connection) {
+        this.connection = connection;
     }
 
     public void displayMenu(User authenticatedUser) {
@@ -26,7 +28,7 @@ public class AdminService {
                 scanner.nextLine(); // Consume newline
 
                 switch (choice) {
-                    case 1 -> ;
+                    case 1 -> new AuthenticationService(new UserDAOImpl(connection)).addAgent(scanner);
                     case 2 -> {
                         System.out.println("Thank you for using the CNSS service. Goodbye!");
                         return;
