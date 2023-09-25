@@ -5,8 +5,8 @@ import model.Admin;
 import model.Agent;
 import model.Patient;
 import util.tools;
-import Enum.UserRole;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class AuthenticationService {
@@ -36,8 +36,21 @@ public class AuthenticationService {
         Agent authenticatedAgent = userDAO.authenticateAgent(email, password);
 
         if (authenticatedAgent != null) {
-            System.out.println("Sign-In successful!");
-            return authenticatedAgent;
+            Random random = new Random();
+            // Generate a random 6-digit integer
+            int min = 100000; // Minimum 6-digit number
+            int max = 999999; // Maximum 6-digit number
+            int code = random.nextInt(max - min + 1) + min;
+            System.out.println(code);
+            System.out.println("enter the code sent to your email: ");
+            int codeEntered = scanner.nextInt();
+            if (codeEntered == code) {
+                System.out.println("Sign-In successful!");
+                return authenticatedAgent;
+            }else {
+                System.out.println("Sign-In failed. Invalid code.");
+                return null;
+            }
         } else {
             System.out.println("Sign-In failed. Invalid email or password.");
             return null;
@@ -77,11 +90,6 @@ public class AuthenticationService {
         }
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
-        // Validate user's password
-        while (tools.isValidPassword(password)) {
-            System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
-            password = new Scanner(System.in).nextLine();
-        }
 
         if (email.equals("admin@gmail.com") && password.equals("admin")) {
             System.out.println("Sign-In successful!");
@@ -114,10 +122,8 @@ public class AuthenticationService {
             password = new Scanner(System.in).nextLine();
         }
 
-        // Create an admin user with role 1 (admin)
         Agent Agent = new Agent(0,name, email, password);
 
-        // Register the admin user using the userDAO
         if (userDAO.addAgent(Agent)) {
             System.out.println("Agent registration successful!");
         } else {
@@ -146,11 +152,19 @@ public class AuthenticationService {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
             password = new Scanner(System.in).nextLine();
         }
-        String matricule = String.valueOf((int) (Math.random()));
+        Random random = new Random();
+
+        // Generate a random 6-digit number
+        int min = 100000; // Minimum 6-digit number (100000)
+        int max = 999999; // Maximum 6-digit number (999999)
+        int matricule = random.nextInt(max - min + 1) + min;
         Patient patient = new Patient(0,name, email, password, matricule);
+        System.out.println("patient Name :"+patient.getName()+"| email : "+patient.getEmail()+"| matricule : "+patient.getMatricule()+"| password :"+patient.getPassword());
+        scanner.nextLine();
 
         if (userDAO.addPatient(patient)) {
             System.out.println("Patient registration successful!");
+            System.out.println("patient Name :"+patient.getName()+"| email : "+patient.getEmail()+"| matricule : "+patient.getMatricule()+"| password :"+patient.getPassword());
         } else {
             System.out.println("Patient registration failed. Please check the input.");
         }

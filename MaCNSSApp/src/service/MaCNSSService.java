@@ -15,7 +15,6 @@ public class MaCNSSService {
     private final AuthenticationService authService;
     private final AgentService AgentService;
     private final PatientService PatientService;
-
     private final AdminService AdminService;
     private final Connection connection;
 
@@ -57,21 +56,25 @@ public class MaCNSSService {
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
-                case 1:
+                case 1 -> {
                     Admin admin = authService.adminAuth(scanner);
-                    AdminService.displayMenu(admin);
-                    break;
-                case 2 :
+                    if (admin != null){
+                        AdminService.displayMenu(admin);
+                    }
+                }
+                case 2 -> {
                     Agent agent = authService.agentAuth(scanner);
-                    AgentService.showMenu(agent);
-                    break;
-                case 3 :
+                    if (agent != null){
+                        AgentService.showMenu(agent);
+                    }
+                }
+                case 3 -> {
                     Patient patient = authService.patientAuth(scanner);
-                    PatientService.showMenu(patient);
-                    break;
-                default :
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
+                    if (patient != null){
+                        PatientService.showMenu(patient);
+                    }
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         } else {
             System.out.println("Invalid input. Please enter a number.");
@@ -81,5 +84,4 @@ public class MaCNSSService {
         scanner.close();
         closeConnection();
     }
-
 }
