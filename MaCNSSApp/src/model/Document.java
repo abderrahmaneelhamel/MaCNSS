@@ -1,21 +1,25 @@
 package model;
 
-public abstract class document {
+public abstract class Document {
     int id;
-    String title;
+    String name;
     double amountPaid;
-    double percentage;
+    String percentage;
 
-    public document(int id, String title, double amountPaid, double percentage) {
+    public Document(int id, String name, double amountPaid, String percentage) {
         this.id = id;
-        this.title = title;
+        this.name = name;
         this.amountPaid = amountPaid;
         this.percentage = percentage;
     }
 
-    public double CalculateRefundedAmount() {
-        return amountPaid * percentage / 100;
+    public Document() {
+
     }
+
+    //public double CalculateRefundedAmount() {
+       // return amountPaid * percentage / 100;
+    //}
 
     public int getId() {
         return id;
@@ -25,12 +29,12 @@ public abstract class document {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getAmountPaid() {
@@ -41,11 +45,11 @@ public abstract class document {
         this.amountPaid = amountPaid;
     }
 
-    public double getPercentage() {
+    public String getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(double percentage) {
+    public void setPercentage(String percentage) {
         this.percentage = percentage;
     }
 }

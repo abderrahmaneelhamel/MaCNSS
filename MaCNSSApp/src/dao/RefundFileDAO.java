@@ -5,8 +5,8 @@ import model.User;
 
 import java.util.List;
 
-public interface FileDAO {
-    public boolean createFile(RefundFile file);
+public interface RefundFileDAO {
+    public boolean addRefundFileToDatabase(RefundFile file);
 
     public List<RefundFile> getAllFiles();
 

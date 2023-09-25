@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
-    private final Connection connection;
+    protected Connection connection; // Change access level to protected
 
     public UserDAOImpl(Connection connection) {
         this.connection = connection;
@@ -19,7 +19,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM patient WHERE matricule = ? AND password = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, matricule);
+            preparedStatement.setString(1, matricule);
             preparedStatement.setString(2, password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -51,6 +51,7 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
+
                 return new Agent(id, name, email, password);
             }
         } catch (SQLException e) {
