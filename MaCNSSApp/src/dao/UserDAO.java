@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserDAO {
 
-    public Patient authenticatePatient(String matricule, String password);
+    public Patient authenticatePatient(int matricule, String password);
     public Agent authenticateAgent(String email, String password);
     public boolean addPatient(Patient patient);
 

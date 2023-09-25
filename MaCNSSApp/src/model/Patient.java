@@ -1,18 +1,18 @@
 package model;
 
 public class Patient extends User{
-    private String matricule;
+    private int matricule;
 
-    public Patient(  int id, String name, String email, String password, String matricule) {
+    public Patient(  int id, String name, String email, String password, int matricule) {
         super(  id,   name, email, password);
         this.matricule = matricule;
     }
 
 
-    public void setMatricule(String matricule) {
+    public void setMatricule(int matricule) {
         this.matricule = matricule;
     }
-    public String getMatricule() {
+    public int getMatricule() {
         return this.matricule;
     }
 

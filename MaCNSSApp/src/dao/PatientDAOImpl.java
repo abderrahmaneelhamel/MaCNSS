@@ -31,7 +31,7 @@ public class PatientDAOImpl extends UserDAOImpl {
             preparedStatement.setString(1, patient.getName());
             preparedStatement.setString(2, patient.getEmail());
             preparedStatement.setString(3, patient.getPassword());
-            preparedStatement.setString(4, patient.getMatricule());
+            preparedStatement.setInt(4, patient.getMatricule());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -66,7 +66,7 @@ public class PatientDAOImpl extends UserDAOImpl {
         String password = scanner.nextLine();
 
         System.out.println("Enter patient matricule: ");
-        String matricule = scanner.nextLine();
+        int matricule = scanner.nextInt();
 
         return new Patient(6, name, email, password, matricule);
     }

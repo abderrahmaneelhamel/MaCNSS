@@ -8,18 +8,18 @@ import java.util.Scanner;
 public class AgentService {
     private final Connection connection;
     private final FileService FileService;
+    private final RefundFileDAOImpl refundFileDAOImpl;
 
 
 
     public AgentService(Connection connection) {
         this.connection = connection;
         this.FileService = new FileService(connection);
+        this.refundFileDAOImpl= new RefundFileDAOImpl(connection);
     }
 
     public void showMenu(User authenticatedUser) {
         Scanner scanner = new Scanner(System.in);
-        Connection connection= null;
-        RefundFileDAOImpl refundFileDAOImpl= new RefundFileDAOImpl(connection);
         while (true) {
             System.out.println("\nAgents Menu:");
             System.out.println("1. Add a New File");
@@ -37,10 +37,10 @@ public class AgentService {
                 switch (choice) {
 
                     case 1 -> refundFileDAOImpl.addFile();
-                    case 2 -> FileService.editFile();
-                    case 3 -> FileService.deleteFile(scanner);
-                    case 4 -> FileService.searchFile();
-                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addPatient(scanner);
+//                    case 2 -> refundFileDAOImpl.updateFile();
+//                    case 3 -> refundFileDAOImpl.deleteFile();
+//                    case 4 -> refundFileDAOImpl.getFileByUser();
+                    case 5 -> new AuthenticationService(new UserDAOImpl(this.connection)).addPatient(scanner);
                     case 6 -> {
                         return; // Logout
                     }

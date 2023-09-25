@@ -60,7 +60,7 @@ public class AuthenticationService {
     public Patient patientAuth(Scanner scanner) {
         System.out.println("=== User Sign-In ===");
         System.out.print("Enter your matricule: ");
-        String matricule = scanner.nextLine();
+        int matricule = scanner.nextInt();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
