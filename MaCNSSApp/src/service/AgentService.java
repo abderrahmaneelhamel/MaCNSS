@@ -36,7 +36,7 @@ public class AgentService {
 
                 switch (choice) {
 
-                    case 1 -> refundFileDAOImpl.addFile();
+                    case 1 -> FileService.addFile();
 //                    case 2 -> refundFileDAOImpl.updateFile();
 //                    case 3 -> refundFileDAOImpl.deleteFile();
 //                    case 4 -> refundFileDAOImpl.getFileByUser();

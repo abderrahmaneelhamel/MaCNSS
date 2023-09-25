@@ -7,16 +7,18 @@ public class RefundFile {
     private double totalRefund;
     private String creationDate;
     private RefundFileStatus status; // Change the type to the enum
+    public RefundFile(int userId, String creationDate,double totalRefund, RefundFileStatus status) {
+        this.userId = userId;
+        this.creationDate = creationDate;
+        this.totalRefund = totalRefund;
+        this.status = status;
+    }
     public RefundFile(int id,int userId, String creationDate,double totalRefund, RefundFileStatus status) {
         this.id = id;
         this.userId = userId;
         this.creationDate = creationDate;
         this.totalRefund = totalRefund;
         this.status = status;
-    }
-
-    public RefundFile(int user_id, RefundFileStatus status, double total_refund, String currentDate) {
-
     }
 
     public int getId() {

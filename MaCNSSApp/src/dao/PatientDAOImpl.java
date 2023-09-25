@@ -53,7 +53,7 @@ public class PatientDAOImpl extends UserDAOImpl {
     }
 
 
-    Patient createPatient() {
+    public Patient createPatient() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter patient name: ");
