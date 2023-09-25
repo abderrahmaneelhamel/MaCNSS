@@ -16,7 +16,7 @@ public class FileService {
 
     private final RefundFileDAOImpl refundFileDAOImpl;
 
-    private final PatientDAOImpl patientDAOImpl;
+    private final PatientService patientService;
 
     List<Document> documents;
 
@@ -25,7 +25,7 @@ public class FileService {
 
 
     public FileService(Connection connection) {
-        this.patientDAOImpl =  new PatientDAOImpl(connection);
+        this.patientService =  new PatientService(connection);
         this.connection = connection;
         this.refundFileDAOImpl= new RefundFileDAOImpl(connection);
     }
@@ -38,13 +38,13 @@ public class FileService {
         }
     }
 
-    public void addFile()  {
+    public void addFile(Scanner scanner)  {
         DocumentDAOImpl documentDAO = new DocumentDAOImpl();
         List<Document> selectedDocuments = new ArrayList<>();
 
         // Create a new patient
         PatientDAOImpl patientDAOImpl = new PatientDAOImpl(this.connection);
-        Patient patient = patientDAOImpl.createPatient();
+        Patient patient = patientService.createPatient();
 
         // Add the patient to the database
         if (patientDAOImpl.addPatientToDatabase(patient)) {
@@ -53,9 +53,6 @@ public class FileService {
             System.out.println("Failed to add the patient.");
             return; // Exit the method if patient creation fails
         }
-
-        // The part where you add documents to the selectedDocuments list goes here
-
         while (true) {
             System.out.println("Please select the type of document to add to the refund file:");
             System.out.println("1. Medicines");
@@ -64,10 +61,9 @@ public class FileService {
             System.out.println("4. Medical Analysis");
             System.out.println("5. Finish Adding Documents");
             System.out.print("Enter your choice: ");
-            Scanner scanner = new Scanner(System.in); // Initialize the scanner
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -77,7 +73,6 @@ public class FileService {
                         selectedDocuments.add(document);
                     }
                     break;
-                // Implement cases for other document types (2, 3, 4)
                 case 5:
                     if (selectedDocuments.isEmpty()) {
                         System.out.println("No documents selected. Please add at least one document.");

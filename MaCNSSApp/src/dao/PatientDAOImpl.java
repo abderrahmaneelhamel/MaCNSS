@@ -18,16 +18,8 @@ public class PatientDAOImpl extends UserDAOImpl {
 
     // Add a new patient to the database
     public boolean addPatientToDatabase(Patient patient) {
-        Connection connection = null;
-        try {
-            connection = DatabaseConnection.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (connection != null) {
         String sql = "INSERT INTO patients (name, email, password, matricule) VALUES (?, ?, ?, ?)";
-         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+         try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql)) {
             preparedStatement.setString(1, patient.getName());
             preparedStatement.setString(2, patient.getEmail());
             preparedStatement.setString(3, patient.getPassword());
@@ -45,29 +37,8 @@ public class PatientDAOImpl extends UserDAOImpl {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Print the exception for debugging
+            e.printStackTrace();
         }
-}
         return false;
-
-    }
-
-
-    public Patient createPatient() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter patient name: ");
-        String name = scanner.nextLine();
-
-        System.out.println("Enter patient email: ");
-        String email = scanner.nextLine();
-
-        System.out.println("Enter patient password: ");
-        String password = scanner.nextLine();
-
-        System.out.println("Enter patient matricule: ");
-        int matricule = scanner.nextInt();
-
-        return new Patient(6, name, email, password, matricule);
     }
 }

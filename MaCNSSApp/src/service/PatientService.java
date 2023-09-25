@@ -1,4 +1,5 @@
 package service;
+import model.Patient;
 import model.User;
 
 import java.sql.Connection;
@@ -40,6 +41,23 @@ public class PatientService {
                 scanner.nextLine(); // Consume the invalid input
             }
         }
+    }
+    public Patient createPatient() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter patient name: ");
+        String name = scanner.nextLine();
+
+        System.out.println("Enter patient email: ");
+        String email = scanner.nextLine();
+
+        System.out.println("Enter patient password: ");
+        String password = scanner.nextLine();
+
+        System.out.println("Enter patient matricule: ");
+        int matricule = scanner.nextInt();
+
+        return new Patient(6, name, email, password, matricule);
     }
 
 }
