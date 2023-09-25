@@ -1,7 +1,7 @@
 package service;
 import dao.UserDAOImpl;
 import model.User;
-
+import dao.RefundFileDAOImpl;
 import java.sql.Connection;
 import java.util.Scanner;
 
@@ -18,7 +18,8 @@ public class AgentService {
 
     public void showMenu(User authenticatedUser) {
         Scanner scanner = new Scanner(System.in);
-
+        Connection connection= null;
+        RefundFileDAOImpl refundFileDAOImpl= new RefundFileDAOImpl(connection);
         while (true) {
             System.out.println("\nAgents Menu:");
             System.out.println("1. Add a New File");
@@ -34,11 +35,11 @@ public class AgentService {
                 scanner.nextLine(); // Consume newline
 
                 switch (choice) {
-                    case 1 -> FileService.AddFile();
-                    case 2 -> FileService.editFile();
-                    case 3 -> FileService.deleteFile(scanner);
-                    case 4 -> FileService.searchFile();
-                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addClient(scanner);
+                      case 1 -> refundFileDAOImpl.addFile();
+                  //  case 2 -> FileService.editFile();
+                   // case 3 -> FileService.deleteFile(scanner);
+                   // case 4 -> FileService.searchFile();
+                    case 5 -> new AuthenticationService(new UserDAOImpl(connection)).addPatient(scanner);
                     case 6 -> {
                         return; // Logout
                     }
@@ -50,6 +51,8 @@ public class AgentService {
             }
         }
     }
+
+
 
 }
 

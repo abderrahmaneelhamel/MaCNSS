@@ -15,7 +15,7 @@ public class AdminService {
     public void displayMenu(User authenticatedUser) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome, " + authenticatedUser.getName() + "!");
+        //System.out.println("Welcome, " + authenticatedUser.getName() + "!");
 
         while (true) {
             System.out.println("Admin Menu:");

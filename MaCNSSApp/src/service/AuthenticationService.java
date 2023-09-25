@@ -47,7 +47,7 @@ public class AuthenticationService {
     public Patient patientAuth(Scanner scanner) {
         System.out.println("=== User Sign-In ===");
         System.out.print("Enter your matricule: ");
-        int matricule = scanner.nextInt();
+        String matricule = scanner.nextLine();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
@@ -118,7 +118,7 @@ public class AuthenticationService {
         Agent Agent = new Agent(0,name, email, password);
 
         // Register the admin user using the userDAO
-        if (userDAO.addUser(Agent)) {
+        if (userDAO.addAgent(Agent)) {
             System.out.println("Agent registration successful!");
         } else {
             System.out.println("Agent registration failed. Please check the input.");
@@ -146,10 +146,10 @@ public class AuthenticationService {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
             password = new Scanner(System.in).nextLine();
         }
-        int matricule = (int) (Math.random());
+        String matricule = String.valueOf((int) (Math.random()));
         Patient patient = new Patient(0,name, email, password, matricule);
 
-        if (userDAO.addUser(patient)) {
+        if (userDAO.addPatient(patient)) {
             System.out.println("Patient registration successful!");
         } else {
             System.out.println("Patient registration failed. Please check the input.");

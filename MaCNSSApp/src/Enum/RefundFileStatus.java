@@ -1,7 +1,7 @@
 package Enum;
 
 public enum RefundFileStatus {
-    APPEOVED,
-    REJECTED,
-    PENDING,
+    approved,
+    rejected,
+    pending,
 }

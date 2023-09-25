@@ -8,18 +8,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
-    private final Connection connection;
+    protected Connection connection; // Change access level to protected
 
     public UserDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Patient authenticatePatient(int matricule, String password) {
+    public Patient authenticatePatient(String matricule, String password) {
         String query = "SELECT * FROM patients WHERE matricule = ? AND password = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, matricule);
+            preparedStatement.setString(1, matricule);
             preparedStatement.setString(2, password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -51,7 +51,6 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                String role = resultSet.getString("role");
 
                 return new Agent(id, name, email, password);
             }
@@ -82,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, patient.getName());
             preparedStatement.setString(2, patient.getEmail());
-            preparedStatement.setInt(3, patient.getMatricule());
+            preparedStatement.setString(3, patient.getMatricule());
             preparedStatement.setString(3, patient.getPassword());
 
 
