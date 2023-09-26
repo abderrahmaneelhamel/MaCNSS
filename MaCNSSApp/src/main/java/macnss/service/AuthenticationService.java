@@ -84,7 +84,7 @@ public class AuthenticationService {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
-        while (!tools.isValidPassword(password)) {
+        while (tools.isValidPassword(password)) {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
             password = scanner.nextLine();
         }
@@ -100,7 +100,7 @@ public class AuthenticationService {
         }
     }
     public Admin adminAuth(Scanner scanner) {
-        System.out.println("=== User Sign-In ===");
+        System.out.println("========== admin Sign-In ==========");
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
         // Validate user's email
@@ -113,11 +113,13 @@ public class AuthenticationService {
 
         if (email.equals("admin@gmail.com") && password.equals("admin")) {
             System.out.println("Sign-In successful!");
+            System.out.println("==============================");
             return new Admin(1,"admin", "admin@gmail.com", "admin");
         } else {
             System.out.println("Sign-In failed. Invalid email or password.");
             return null;
         }
+
     }
     public void addAgent(Scanner scanner) {
         System.out.println("=== Agent Registration ===");

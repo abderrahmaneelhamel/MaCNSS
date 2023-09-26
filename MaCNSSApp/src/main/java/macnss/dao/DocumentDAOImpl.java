@@ -11,7 +11,7 @@ import macnss.db.DatabaseConnection;
 public class DocumentDAOImpl {
 
     public Medicine createMedicineDocument() {
-        Scanner scanner = new Scanner(System.in); // Initialize the scanner
+        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the barcode for the medicine: ");
         Double barcode = scanner.nextDouble();
 

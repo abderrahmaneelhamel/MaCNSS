@@ -34,28 +34,34 @@ public class FileService {
     public void checkClientFiles(User authenticatedUser) {
         List<RefundFile> refundfiles = refundFileDAOImpl.getFileByUser(authenticatedUser);
         System.out.println("your files :");
+        System.out.println("---------------------------------------------------------");
+        System.out.println("|  ID  |      DATE      |   STATUS   |   TotalRefund   |");
+        System.out.println("---------------------------------------------------------");
         for (RefundFile refundfile : refundfiles) {
-            System.out.println(refundfile.getId() + "- Status : " + refundfile.getStatus() + "- TotalRefund : " + refundfile.getTotalRefund());
+            System.out.printf("| %-4d | %-14s | %-10s | %-15.2f |\n",
+                    refundfile.getId(),
+                    refundfile.getCreationDate(),
+                    refundfile.getStatus(),
+                    refundfile.getTotalRefund());
         }
+        System.out.println("---------------------------------------------------------");
+
     }
 
     public void addFile()  {
         DocumentDAOImpl documentDAO = new DocumentDAOImpl();
         List<Document> selectedDocuments = new ArrayList<>();
 
-        // Create a new patient
         PatientDAOImpl patientDAOImpl = new PatientDAOImpl(this.connection);
         Patient patient = patientDAOImpl.createPatient();
 
-        // Add the patient to the database
         if (patientDAOImpl.addPatientToDatabase(patient)) {
             System.out.println("Patient added with ID: " + patient.getId());
         } else {
             System.out.println("Failed to add the patient.");
-            return; // Exit the method if patient creation fails
+            return;
         }
 
-        // The part where you add documents to the selectedDocuments list goes here
 
         while (true) {
             System.out.println("Please select the type of document to add to the refund file:");
@@ -65,10 +71,10 @@ public class FileService {
             System.out.println("4. Medical Analysis");
             System.out.println("5. Finish Adding Documents");
             System.out.print("Enter your choice: ");
-            Scanner scanner = new Scanner(System.in); // Initialize the scanner
+            Scanner scanner = new Scanner(System.in);
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -79,7 +85,6 @@ public class FileService {
                         selectedDocuments.add(document);
                     }
                     break;
-                // Implement cases for other document types (2, 3, 4)
                 case 5:
                     if (selectedDocuments.isEmpty()) {
                         System.out.println("No documents selected. Please add at least one document.");
@@ -90,7 +95,6 @@ public class FileService {
                         calculateRefundForDocuments(selectedDocuments);
                         System.out.println("Total Amount: " + calculateRefundForDocuments(selectedDocuments));
 
-                        // Call the method to add the refund file to the database
                         RefundFile refundFile = new RefundFile(patient.getId(), tools.getCurrentDate(), calculateRefundForDocuments(selectedDocuments), RefundFileStatus.pending);
                         if (refundFileDAOImpl.addRefundFileToDatabase(refundFile)) {
                             System.out.println("Refund file added to the database.");
@@ -105,6 +109,76 @@ public class FileService {
             }
         }
     }
+    public void updateFileStatus() {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the patient's matricule: ");
+        int matricule = scanner.nextInt();
+        scanner.nextLine();
+        List<RefundFile> filematricule = refundFileDAOImpl.getFileBymatricule(matricule);
+
+        System.out.println("Files for Matricule " + matricule + ":");
+        System.out.println("---------------------------------------------------------");
+        System.out.println("|  ID  |      DATE      |   STATUS   |   TotalRefund   |");
+        System.out.println("---------------------------------------------------------");
+
+        for (RefundFile refundFile : filematricule) {
+            System.out.printf("| %-4d | %-14s | %-10s | %-15.2f |\n",
+                    refundFile.getId(),
+                    refundFile.getCreationDate(),
+                    refundFile.getStatus(),
+                    refundFile.getTotalRefund());
+        }
+
+        System.out.println("---------------------------------------------------------");
+
+        System.out.print("Enter the ID File ");
+
+        if (scanner.hasNextInt()) {
+            int fileId = scanner.nextInt();
+            scanner.nextLine();
+
+                System.out.println("Choose the new status:");
+                System.out.println("1. Approved");
+                System.out.println("2. Rejected");
+                System.out.println("3. Pending");
+                System.out.print("Enter your choice: ");
+
+                if (scanner.hasNextInt()) {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    RefundFileStatus newStatus;
+                    switch (choice) {
+                        case 1:
+                            newStatus = RefundFileStatus.approved;
+                            break;
+                        case 2:
+                            newStatus = RefundFileStatus.rejected;
+                            break;
+                        case 3:
+                            newStatus = RefundFileStatus.pending;
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Status not updated.");
+                            return;
+                    }
+
+                    if (refundFileDAOImpl.updateFile(fileId,newStatus)) {
+                        System.out.println("File status updated successfully.");
+                    } else {
+                        System.out.println("Failed to update file status.");
+                    }
+                } else {
+                    System.out.println("Invalid input. Please enter a valid choice.");
+                }
+            } else {
+                System.out.println("File not found or does not belong to the authenticated user.");
+            }
+
+    }
+
+
     public double calculateRefundForDocuments(List<Document> documents) {
         double totalRefund = 0.0;
 

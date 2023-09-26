@@ -25,31 +25,27 @@ public class AgentService {
             System.out.println("\nAgents Menu:");
             System.out.println("1. Add a New File");
             System.out.println("2. Edit a File");
-            System.out.println("3. Delete a File");
-            System.out.println("4. Search for a File");
             System.out.println("5. Add a new Patient");
             System.out.println("6. Logout");
 
             System.out.print("Enter your choice: ");
             if (scanner.hasNextInt()) {
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
 
                 switch (choice) {
 
                     case 1 -> FileService.addFile();
-//                    case 2 -> refundFileDAOImpl.updateFile();
-//                    case 3 -> refundFileDAOImpl.deleteFile();
-//                    case 4 -> refundFileDAOImpl.getFileByUser();
+                    case 2 -> FileService.updateFileStatus();
                     case 5 -> new AuthenticationService(new UserDAOImpl(this.connection)).addPatient(scanner);
                     case 6 -> {
-                        return; // Logout
+                        return;
                     }
                     default -> System.out.println("Invalid choice. Please try again.");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.nextLine(); // Consume the invalid input
+                scanner.nextLine();
             }
         }
     }

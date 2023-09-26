@@ -1,5 +1,6 @@
 package macnss.dao;
 
+import macnss.Enum.RefundFileStatus;
 import macnss.model.RefundFile;
 import macnss.model.User;
 
@@ -12,7 +13,7 @@ public interface RefundFileDAO {
 
     public List<RefundFile> getFileByUser(User patient);
 
-    public boolean deleteFile(int id);
 
-    public boolean updateFile(RefundFile file);
+    public boolean updateFile(int fileId, RefundFileStatus newStatus);
+    public List<RefundFile> getFileBymatricule(int matricule);
 }
