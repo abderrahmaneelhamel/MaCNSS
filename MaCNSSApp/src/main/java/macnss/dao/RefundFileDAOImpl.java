@@ -129,6 +129,24 @@ public class RefundFileDAOImpl implements RefundFileDAO {
             return false;
         }
     }
+    public String getEmailByMatricule(int matricule) {
+        String sql = "SELECT email from patients where matricule =?";
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, matricule);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                String email= resultSet.getString("email");
+                return  email;
+            }else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 }

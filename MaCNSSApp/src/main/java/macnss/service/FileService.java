@@ -9,6 +9,7 @@ import util.tools;
 import macnss.Enum.RefundFileStatus;
 
 import java.sql.Connection;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -166,6 +167,12 @@ public class FileService {
 
                     if (refundFileDAOImpl.updateFile(fileId,newStatus)) {
                         System.out.println("File status updated successfully.");
+                        if(sendstatusVerificationEmail(matricule,newStatus)){
+                            System.out.println("success");
+
+                        }else{
+                            System.out.println("invalid email");
+                        }
                     } else {
                         System.out.println("Failed to update file status.");
                     }
@@ -178,7 +185,20 @@ public class FileService {
 
     }
 
+    public boolean sendstatusVerificationEmail(int matricule, RefundFileStatus newStatus){
+        String etat=newStatus.toString();
+        String Sbj= "Macnss :  modification de votre dossier ";
+        String Msg="etat de votre dossier "+etat;
+        String email=refundFileDAOImpl.getEmailByMatricule(matricule);
+        LocalTime emailSentTime = EmailSimpleService.sendMail(Msg,Sbj,email);
 
+        if (emailSentTime != null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
     public double calculateRefundForDocuments(List<Document> documents) {
         double totalRefund = 0.0;
 
