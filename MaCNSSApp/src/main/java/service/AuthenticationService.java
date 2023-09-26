@@ -1,29 +1,28 @@
-package macnss.service;
+package service;
 
-import macnss.dao.UserDAOImpl;
-import macnss.model.Admin;
-import macnss.model.Agent;
-import macnss.model.Patient;
+import dao.UserDAOImpl;
+import model.Admin;
+import model.Agent;
+import model.Patient;
 import util.tools;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.Scanner;
 
 public class AuthenticationService {
     private final UserDAOImpl userDAO;
+    private final EmailService EmailService;
 
     public AuthenticationService(UserDAOImpl userDAO) {
         this.userDAO = userDAO;
+        this.EmailService = new EmailService();
     }
 
     public Agent agentAuth(Scanner scanner) {
-        EmailSimpleService.sendMail("dfgh","dty" ,"najouabelhaj7@gmail.com");
         System.out.println("=== User Sign-In ===");
-
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
+        // Validate user's email
         while (tools.isValidEmailFormat(email)) {
             System.out.println("Invalid email format. Please enter a valid email:");
             email = new Scanner(System.in).nextLine();
@@ -39,55 +38,38 @@ public class AuthenticationService {
         Agent authenticatedAgent = userDAO.authenticateAgent(email, password);
 
         if (authenticatedAgent != null) {
-                if(sendVerificationEmail(email)){
-                    System.out.println("success");
-
-                }else{
-                    System.out.println("invalid verification code");
-                }
+            Random random = new Random();
+            // Generate a random 6-digit integer
+            int min = 100000; // Minimum 6-digit number
+            int max = 999999; // Maximum 6-digit number
+            int code = random.nextInt(max - min + 1) + min;
+//            System.out.println(code);
+            EmailService.sendCode(authenticatedAgent,code);
+            System.out.println("enter the code sent to your email: ");
+            int codeEntered = scanner.nextInt();
+            if (codeEntered == code) {
+                System.out.println("Sign-In successful!");
                 return authenticatedAgent;
-            } else {
-                System.out.println("Sign-In failed. Invalid email or password.");
+            }else {
+                System.out.println("Sign-In failed. Invalid code.");
                 return null;
             }
+        } else {
+            System.out.println("Sign-In failed. Invalid email or password.");
+            return null;
         }
-        public boolean sendVerificationEmail(String email){
-            String codeverification = EmailSimpleService.codeGenerator();
-            String Sbj= "Macnss Email Verification code ";
-            String Msg="code verification"+codeverification;
-            LocalTime sendTime = EmailSimpleService.sendMail(Msg,Sbj,email);
-            System.out.println("entre verification code : ");
-            String code;
-            do{
-                Scanner scanner = new Scanner(System.in);
-                code = scanner.nextLine();
-                if(code.equals(codeverification)){
-                    return true ;
-                }
-                System.out.println("entre verification code : ");
-
-
-            }while (codevalide(sendTime));
-            return false;
-        }
-        public boolean codevalide(LocalTime sendTime){
-            if(sendTime.until(LocalTime.now(), ChronoUnit.MINUTES)<=2)
-                return true;
-            return false;
-        }
+    }
 
     public Patient patientAuth(Scanner scanner) {
         System.out.println("=== User Sign-In ===");
         System.out.print("Enter your matricule: ");
-        int matricule ;
-        matricule = scanner.nextInt();
-        scanner.nextLine();
+        int matricule = scanner.nextInt();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
-        while (!tools.isValidPassword(password)) {
+        while (tools.isValidPassword(password)) {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
-            password = scanner.nextLine();
+            password = new Scanner(System.in).nextLine();
         }
 
         Patient authenticatedPatient = userDAO.authenticatePatient(matricule, password);
