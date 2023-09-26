@@ -81,7 +81,7 @@ public class RefundFileDAOImpl implements RefundFileDAO {
             }
             return fileList;
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception appropriately
+            e.printStackTrace();
             return null;
         }
     }

@@ -78,13 +78,15 @@ public class AuthenticationService {
     public Patient patientAuth(Scanner scanner) {
         System.out.println("=== User Sign-In ===");
         System.out.print("Enter your matricule: ");
-        int matricule = scanner.nextInt();
+        int matricule ;
+        matricule = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
-        while (tools.isValidPassword(password)) {
+        while (!tools.isValidPassword(password)) {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
-            password = new Scanner(System.in).nextLine();
+            password = scanner.nextLine();
         }
 
         Patient authenticatedPatient = userDAO.authenticatePatient(matricule, password);
