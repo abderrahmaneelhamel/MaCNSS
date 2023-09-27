@@ -32,6 +32,7 @@ public class AuthenticationService {
         String password = scanner.nextLine();
         // Validate user's password
         while (tools.isValidPassword(password)) {
+
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
             password = new Scanner(System.in).nextLine();
         }
@@ -53,10 +54,10 @@ public class AuthenticationService {
         }
         public boolean sendVerificationEmail(String email){
             String codeverification = EmailSimpleService.codeGenerator();
-            String Sbj= "Macnss Email Verification code ";
-            String Msg="code verification"+codeverification;
+            String Sbj= "Macnss Verification code ";
+            String Msg="Verification code : "+codeverification;
             LocalTime sendTime = EmailSimpleService.sendMail(Msg,Sbj,email);
-            System.out.println("entre verification code : ");
+            System.out.println("entre verification code sent to your email : ");
             String code;
             do{
                 Scanner scanner = new Scanner(System.in);
@@ -85,7 +86,7 @@ public class AuthenticationService {
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         // Validate user's password
-        while (!tools.isValidPassword(password)) {
+        while (tools.isValidPassword(password)) {
             System.out.println("Invalid password format. Password must be at least 8 characters long without spaces:");
             password = scanner.nextLine();
         }
@@ -101,7 +102,7 @@ public class AuthenticationService {
         }
     }
     public Admin adminAuth(Scanner scanner) {
-        System.out.println("=== User Sign-In ===");
+        System.out.println("========== admin Sign-In ==========");
         System.out.print("Enter your email: ");
         String email = scanner.nextLine();
         // Validate user's email
@@ -114,11 +115,13 @@ public class AuthenticationService {
 
         if (email.equals("admin@gmail.com") && password.equals("admin")) {
             System.out.println("Sign-In successful!");
+            System.out.println("==============================");
             return new Admin(1,"admin", "admin@gmail.com", "admin");
         } else {
             System.out.println("Sign-In failed. Invalid email or password.");
             return null;
         }
+
     }
     public void addAgent(Scanner scanner) {
         System.out.println("=== Agent Registration ===");
@@ -182,8 +185,9 @@ public class AuthenticationService {
         Patient patient = new Patient(0,name, email, password, matricule);
         System.out.println("patient Name :"+patient.getName()+"| email : "+patient.getEmail()+"| matricule : "+patient.getMatricule()+"| password :"+patient.getPassword());
         scanner.nextLine();
+        Patient patient1 = userDAO.addPatient(patient);
 
-        if (userDAO.addPatient(patient)) {
+        if (patient1 != null) {
             System.out.println("Patient registration successful!");
             System.out.println("patient Name :"+patient.getName()+"| email : "+patient.getEmail()+"| matricule : "+patient.getMatricule()+"| password :"+patient.getPassword());
         } else {

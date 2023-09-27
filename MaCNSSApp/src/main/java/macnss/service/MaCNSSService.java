@@ -18,6 +18,7 @@ public class MaCNSSService {
             AgentService;
     private final macnss.service.PatientService PatientService;
     private final macnss.service.AdminService AdminService;
+    private final FileService FileService;
     private final Connection connection;
 
     private MaCNSSService() throws SQLException {
@@ -26,6 +27,7 @@ public class MaCNSSService {
         AgentService = new AgentService(connection);
         PatientService = new PatientService(connection);
         AdminService = new AdminService(connection);
+        FileService = new FileService(connection);
     }
 
     public static MaCNSSService getInstance() throws SQLException {
@@ -46,16 +48,20 @@ public class MaCNSSService {
     public void start() {
         Scanner scanner = new Scanner(System.in);
 
-        // Display a welcome message and options to log in or sign up
-        System.out.println("Welcome to the MaCNSS Management System!");
-        System.out.println("Log in as :");
-        System.out.println("1-Admin");
-        System.out.println("2-Agent");
-        System.out.println("3-Patient");
+        System.out.println("************************************************************");
+        System.out.println("                  Welcome to MaCNSS                         ");
+        System.out.println("                                                            ");
+        System.out.println("  Please select your role:                                  ");
+        System.out.println("  1. Admin                                                  ");
+        System.out.println("  2. Agent                                                  ");
+        System.out.println("  3. Patient                                                ");
+        System.out.println("                                                            ");
+        System.out.println("************************************************************");
         System.out.print("Enter your choice: ");
+
         if (scanner.hasNextInt()) {
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1 -> {
@@ -73,16 +79,15 @@ public class MaCNSSService {
                 case 3 -> {
                     Patient patient = authService.patientAuth(scanner);
                     if (patient != null){
-                        PatientService.showMenu(patient);
+                        PatientService.showMenu(patient,FileService);
                     }
                 }
                 default -> System.out.println("Invalid choice. Please try again.");
             }
         } else {
             System.out.println("Invalid input. Please enter a number.");
-            scanner.nextLine(); // Consume the invalid input
+            scanner.nextLine();
         }
-        // Close resources
         scanner.close();
         closeConnection();
     }

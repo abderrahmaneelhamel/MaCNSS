@@ -38,6 +38,7 @@ public class EmailSimpleService {
         }
         return LocalTime.now();
     }
+
     public static String codeGenerator() {
         int len = 6;
         String characters = "0123456789";
