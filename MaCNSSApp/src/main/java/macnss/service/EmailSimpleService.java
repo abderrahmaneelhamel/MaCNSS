@@ -16,7 +16,7 @@ public class EmailSimpleService {
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        properties.put("mail.smtp.ssl.protocols", "TLS");
         properties.put("mail.smtp.starttls.enable", "true");
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
